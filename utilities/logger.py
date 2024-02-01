@@ -38,9 +38,26 @@ def start_logger():
 
 def create_log(function):
 	def wrapper(*args, **kwargs):
-		print(f"Function: {function.__name__}, file: {function.__doc__}")
+		print(dir(function))
+		print(function.__str__)
+		log_message = f'FILENAME="{function.__code__.co_filename.split("/")[-1]}"; FUNCTION="{function.__name__}"; CONTENT=""; EXCEPTION="";'
+		date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+		print(f'DATE="{date}"; {log_message}')
+		logger.info(log_message)
 		return function(*args, **kwargs)
 	return wrapper
+
+
+@create_log
+def f(g='mega'):
+	print(f'H {g}')
+	return 'gay'
+
+
+
+if __name__ == '__main__':
+	start_logger()
+	f()
 
 
 # def create_log(filename: str, function: str, exception, content: str):
